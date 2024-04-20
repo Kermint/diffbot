@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="addr" default="" />
+  <arg name="use_standard_msgs" default="true" />
+  <arg name="autorepeat_rate" default="0" if="$(arg use_standard_msgs)" />
+  <arg name="teleop_config" default="$(find joy_teleop)/config/joy_teleop_example.yaml" />
+
+  <rosparam file="$(arg teleop_config)" command="load" />
+
+
+  <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen" >
+    <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+
+    <param name="device_addr" value="$(arg addr)" />
+    <param name="use_standard_msgs" value="$(arg use_standard_msgs)" />
+    <param name="autorepeat_rate" value="$(arg autorepeat_rate)" if="$(arg use_standard_msgs)" />
+  </node>
+
+  <arg name="joy_config" default="ps4" />
+  <arg name="config_filepath" default="$(find diffbot_bringup)/config/$(arg joy_config).config.yaml" />
+
+  <node pkg="teleop_twist_joy" type="teleop_node" name="joy_teleop">
+     <rosparam command="load" file="$(arg config_filepath)" />
+     <remap from="/cmd_vel" to="/diffbot/mobile_base_controller/cmd_vel"/>
+  </node>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="ds4_to_imu"
+    args="0 0.05 -0.01 -1.5707 0 1.5707 ds4 ds4_imu" />
+</launch>
