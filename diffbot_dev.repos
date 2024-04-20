@@ -1,0 +1,18 @@
+repositories:
+  src/ydlidar_ros:
+    type: git
+    url: https://github.com/EldarKurbanov/ydlidar_ros
+    version: master
+  src/remo_description:
+    type: git
+    url: https://github.com/ros-mobile-robots/remo_description
+    version: main
+  src/ds4_driver:
+    type: git
+    url: https://github.com/naoki-mizuno/ds4_driver
+    version: melodic-devel
+  src/aws-robomaker-small-house-world:
+    type: git
+    url: https://github.com/aws-robotics/aws-robomaker-small-house-world
+    version: ros1
+
